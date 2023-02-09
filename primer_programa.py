@@ -1,0 +1,5 @@
+num1 = int(input("Numero 1: "))
+num2 = int(input("Numero 2: "))
+num3 = int(input("Numero 3: "))
+print(f"El numero mas pequeño es: {min(num1, num2, num3)}")
+print(f"El numero mas grande es: {max(num1, num2, num3)}")
