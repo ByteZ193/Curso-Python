@@ -2,15 +2,18 @@ from random import randint
 from os import system
 from time import sleep
 
-vida_pikachu = 80
-vida_squirtle = 90
+VIDA_PICHACHU_INICIAL = 80
+VIDA_SQUIRTLE_INICIAL = 90
+
+vida_pikachu = VIDA_PICHACHU_INICIAL
+vida_squirtle = VIDA_SQUIRTLE_INICIAL
 
 while vida_pikachu > 0 and vida_squirtle > 0:
 
     print("Pikachu")
-    print("[" + "*" * int(vida_pikachu / 10) + " " * int(8 - vida_pikachu / 10) + "]" + f" {vida_pikachu} PS")
+    print("[" + "*" * int(vida_pikachu / 10) + " " * int(8 - vida_pikachu / 10) + "]" + f" {vida_pikachu}/{VIDA_PICHACHU_INICIAL} PS")
     print("Squirtle")
-    print("[" + "*" * int(vida_squirtle / 10) + " " * int(9 - vida_squirtle / 10) + "]" + f" {vida_squirtle} PS")
+    print("[" + "*" * int(vida_squirtle / 10) + " " * int(9 - vida_squirtle / 10) + "]" + f" {vida_squirtle}/{VIDA_SQUIRTLE_INICIAL} PS")
 
     print("Turno de pikachu")
     sleep(2)
@@ -33,9 +36,9 @@ while vida_pikachu > 0 and vida_squirtle > 0:
     ataque_squirtle = None
     while ataque_squirtle not in ["a", "p", "b"]:
         print("Pikachu")
-        print("[" + "*" * int(vida_pikachu / 10) + " " * int(8 - vida_pikachu / 10) + "]" + f" {vida_pikachu} PS")
+        print("[" + "*" * int(vida_pikachu / 10) + " " * int(8 - vida_pikachu / 10) + "]" + f" {vida_pikachu}/{VIDA_PICHACHU_INICIAL} PS")
         print("Squirtle")
-        print("[" + "*" * int(vida_squirtle / 10) + " " * int(9 - vida_squirtle / 10) + "]" + f" {vida_squirtle} PS")
+        print("[" + "*" * int(vida_squirtle / 10) + " " * int(9 - vida_squirtle / 10) + "]" + f" {vida_squirtle}/{VIDA_SQUIRTLE_INICIAL} PS")
         ataque_squirtle = input('\nTu turno, que ataque elegiras???\nA - Pistola agua 20 de potencia\nP - Placaje 10 de potencia\nB - Burbujas 5 de potencia\n\n')
         system('cls')
 
