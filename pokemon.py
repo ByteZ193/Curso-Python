@@ -13,7 +13,7 @@ while vida_pikachu > 0 and vida_squirtle > 0:
     print("[" + "*" * int(vida_squirtle / 10) + " " * int(9 - vida_squirtle / 10) + "]" + f" {vida_squirtle} PS")
 
     print("Turno de pikachu")
-    sleep(3)
+    sleep(2)
     system('cls')
 
     ataque_pikachu = randint(1, 2)
@@ -28,10 +28,10 @@ while vida_pikachu > 0 and vida_squirtle > 0:
     if vida_squirtle <= 0:
         continue
     
-    sleep(2)
+    sleep(1)
 
     ataque_squirtle = None
-    while ataque_squirtle != "a" and ataque_squirtle != "p" and ataque_squirtle != "b":
+    while ataque_squirtle not in ["a", "p", "b"]:
         print("Pikachu")
         print("[" + "*" * int(vida_pikachu / 10) + " " * int(8 - vida_pikachu / 10) + "]" + f" {vida_pikachu} PS")
         print("Squirtle")
@@ -48,15 +48,15 @@ while vida_pikachu > 0 and vida_squirtle > 0:
     elif ataque_squirtle.lower() == "b":
         print("\nSquirtle ataca con burbujas")
         vida_pikachu -= 5
-    sleep(3)
+    sleep(2)
     system('cls')
 
 if vida_pikachu == 0:
     print("Squirtle gana!!!")
-    sleep(3)
+    sleep(2)
     system('cls')
 elif vida_squirtle == 0:
     print("Pikachu gana!!!")
     system('cls')
 
-sleep(2)
+sleep(1)
