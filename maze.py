@@ -17,7 +17,7 @@ while True:
             for map_object in map_objects:
                 if map_object[POS_X] == cordinate_x and map_object[POS_Y] == cordinate_y:
                     char_to_draw = "*"
-            if my_position[POS_X] == cordinate_x and my_position[POS_Y] == cordinate_y:
+            if my_position[POS_X] == cordinate_x and my_position[POS_Y] == cordinate_y and my_position not in map_objects:
                 char_to_draw = "@"
             print(f" {char_to_draw} ", end="")
         print("|")
