@@ -50,7 +50,7 @@ while True:
         new_position = [randint(0, MAP_WIDTH - 1), randint(1, MAP_HEIGHT - 1)]
 
         if new_position not in map_objects and new_position != my_position and obstacle_definition[new_position[POS_Y]][
-            new_position[POS_X]] == " " and my_position != object_in_cell:
+            new_position[POS_X]] == " ":
             map_objects.append(new_position)
 
     if my_position in tail:
@@ -85,8 +85,6 @@ while True:
         print("|")
     # Finish printing the map
     print("+" + "-" * MAP_WIDTH * 3 + "+")
-    print(map_objects)
-    print(my_position)
     # Q for quit the game
     print("\nPress [q] for quit")
 
