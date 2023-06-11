@@ -57,7 +57,6 @@ def guess(n):
     return print("Adivinaste!!!")
 
 def main():
-
     #most_long_string('hola', 'esto no tiene sentido', 'adios', 'Supercalifragilisticoespialidoso')
     #plus(2, 2)
     #print(odd(2))
