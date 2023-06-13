@@ -56,13 +56,35 @@ def guess(n):
     system('cls')
     return print("Adivinaste!!!")
 
+# Ejercicio 7:Crea una función que dada una lista de la compra definida fuera de la función, permita al usuario añadir un
+# nuevo item asegurandose que no exista anteriormente en la lista.
+def shopping(adding):
+    add = ""
+    print(f"Esta es la lista de compras: {adding}")
+    q = input("Desea agregar algo mas? (si/no)\n").lower()
+    while q not in ["si", "no"]:
+        system('cls')
+        q = (input("Favor elegir si o no; quieres agregar algo mas (si/no)?\n")).lower()
+    if q == "si":
+        system('cls')
+        while add not in ["Q", "q"]:
+            add = input("Que desea agregar? precione Enter cada que escriba un articulo para guardar (q para salir):\n")
+            adding.append(add)
+    elif q == "no":
+        system('cls')
+        return print(f"Su lista quedo asi: {adding}")
+    adding.pop()
+    return print(f"Su lista quedo asi: {adding}")
+
 def main():
+    shopping_list = ["Aguacate", "Azucar", "Pan", "Arroz", "Leche"]
     #most_long_string('hola', 'esto no tiene sentido', 'adios', 'Supercalifragilisticoespialidoso')
     #plus(2, 2)
     #print(odd(2))
     #print(question())
     #upper("Hola klk Edwin")
     #guess(3)
+    shopping(shopping_list)
 
 if __name__ == '__main__':
     main()
