@@ -4,13 +4,8 @@ from string import ascii_lowercase
 
 #Ejejcicio 1: Crea una funcion que reciba una lista de strings como entrada y te diga cual es la más larga de todas
 def most_long_string(*args):
-    long = ''
-    i = 0
-    for e in args:
-        if len(e) > len(long):
-            long = e
-            i += 1
-    return print(f"La string mas larga es la {i} '{long}' con {len(long)} caracteres.")
+    return max(args, key=len)
+    
 
 #Ejecicio 2: Crea una función que sume una lista de números, no se vale usar la función sum()
 def plus(*args):
@@ -78,13 +73,13 @@ def shopping(adding):
 
 def main():
     shopping_list = ["Aguacate", "Azucar", "Pan", "Arroz", "Leche"]
-    #most_long_string('hola', 'esto no tiene sentido', 'adios', 'Supercalifragilisticoespialidoso')
+    print(most_long_string('hola', 'esto no tiene sentido', 'adios', 'Supercalifragilisticoespialidoso'))
     #plus(2, 2)
     #print(odd(2))
     #print(question())
     #upper("Hola klk Edwin")
     #guess(3)
-    shopping(shopping_list)
+    #shopping(shopping_list)
 
 if __name__ == '__main__':
     main()
