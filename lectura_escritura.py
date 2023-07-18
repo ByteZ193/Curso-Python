@@ -2,42 +2,45 @@ from os import system
 
 SALIDA = "SALIR"
 LISTA = "LISTAR"
+ARCHIVO_LISTA = "lista_compra.txt"
 
 def preguntar_producto_usuario():
-    return input(f"Introduce el producto [{SALIDA} para salir][{LISTA} para listar productos]:\n")
+    return input(f"Introduce el producto [{SALIDA} para salir]:\n")
 
-def preguntar_nombre_usuario():
-    return input(f"Introduce de la lista [{SALIDA} para salir]:\n")
+def crear_lista(lista_compra):
+    with open(ARCHIVO_LISTA, "w") as file:
+        file.write("\n".join(lista_compra))
 
-def crear_lista(nombre, lista_compra):
-    with open(f"{nombre}.txt", "w") as file:
-        file.write(f"{lista_compra}\n")
+def guardar_en_lista(lista_compra, input_usuario):
+    system('cls')
+    if input_usuario.lower() in [e.lower() for e in lista_compra] or input_usuario.lower() == "":
+        system('cls')
+        print("Favor elegir un producto que no este en la lista de compras.")
+    else:
+        lista_compra.append(input_usuario)
+
+def cargar_o_crear_archivo():
+    lista_compra = []
+    if input("Quieres cargar la ultima lista de compras?[S/N]") in ["s", "S"]:
+        try:
+            with open(ARCHIVO_LISTA, "r") as a:
+                lista_compra = a.read().split("\n")
+        except FileNotFoundError:
+            print("Archivo de compra no encontrado")
+    return lista_compra
 
 def main():
-    lista_compra = []
-    lista_productos = ["Salami", "Salmon", "Pan", "Arroz", "Leche", "Pasta"]
+    lista_compra = cargar_o_crear_archivo()
 
     input_usuario = preguntar_producto_usuario()
 
-    while input_usuario != SALIDA:
-        if input_usuario == LISTA:
-            system('cls')
-            print(", ".join(lista_productos))
-            input_usuario = preguntar_producto_usuario()
-        else:
-            if input_usuario not in lista_productos:
-                system('cls')
-                print("Favor elegir un producto de la lista de productos")
-                input_usuario = preguntar_producto_usuario()
-            else:
-                system('cls')
-                lista_compra.append(input_usuario)
-                print(", ".join(lista_compra))
-                input_usuario = preguntar_producto_usuario()
+    while input_usuario.lower() != SALIDA.lower():
+        guardar_en_lista(lista_compra, input_usuario)
+        print("\n".join(lista_compra))
+        input_usuario = preguntar_producto_usuario()
 
     system('cls')
-    input_nombre_lista = preguntar_nombre_usuario()
-    crear_lista(input_nombre_lista, lista_compra)
+    crear_lista(lista_compra)
 
 if __name__ == '__main__':
     main()
