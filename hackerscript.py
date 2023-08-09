@@ -41,6 +41,7 @@ def main():
     #Obtenemos su historial de Google Chrome
     history_path = os.environ['USERPROFILE'] + '\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History'
     chrome_history = get_chrome_history(history_path)
+    print(chrome_history)
 
 if __name__ == "__main__":
     main()
