@@ -18,7 +18,9 @@ def fibonacci2(n):
         i += 1
     return n1
 
-
-if __name__ == '__main__':
+def main():
     print(fibonacci1(6))
     print(fibonacci2(4))
+
+if __name__ == '__main__':
+    main()
