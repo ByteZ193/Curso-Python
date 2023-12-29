@@ -5,7 +5,7 @@ LISTA = "LISTAR"
 ARCHIVO_LISTA = "lista_compra.txt"
 
 def preguntar_producto_usuario():
-    return input(f"Introduce el producto [{SALIDA} para salir]:\n")
+    return input(f"Introduce el producto [{SALIDA} para salir / {LISTA} para mostrar la lista]:\n")
 
 def crear_lista(lista_compra):
     with open(ARCHIVO_LISTA, "w") as file:
@@ -26,7 +26,7 @@ def cargar_o_crear_archivo():
             with open(ARCHIVO_LISTA, "r") as a:
                 lista_compra = a.read().split("\n")
         except FileNotFoundError:
-            print("Archivo de compra no encontrado")
+            print("Archivo de compra no encontrado, se creara un archivo nuevo para la lista.")
     return lista_compra
 
 def main():
