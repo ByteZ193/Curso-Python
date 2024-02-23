@@ -51,12 +51,20 @@ def check_twitter_profiles_and_scare_user(hacker_file, chrome_history):
                       f"interesante.....")
 
 def check_youtube_profiles_and_scare_user(hacker_file, chrome_history):
-    profiles_visited = []
-    for item in chrome_history:
-        results = re.findall(r"\(\d+\)\s([^-\n]+)", item[0])
-        if results:
-            profiles_visited.append(results[0])
-            profiles_visited = list(set(profiles_visited))
+    profiles_visited = set()
+    forbidden_urls = [
+        "https://www.youtube.com/watch",
+        "https://www.youtube.com/search",
+        "https://www.youtube.com/live",
+        "https://www.youtube.com/results"
+    ]
+    for title, identifier, url in chrome_history:
+        chequer = url.startswith("https://www.youtube.com") and not any(url.startswith(x) for x in forbidden_urls)
+        channel_name = re.sub(r" - youtube$", "", title, flags=re.IGNORECASE)
+        channel_name = re.sub(r"^\(\d+\)\s*", "", channel_name)
+        if chequer:
+            if channel_name:
+                profiles_visited.add(channel_name)
     hacker_file.write(f"\nTambien he visto que has visitado los canales de YouTube de {', '.join(profiles_visited)}, "
                       f"ajaaaa.....")
 
