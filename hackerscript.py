@@ -2,7 +2,6 @@
 #Importando librerias
 
 import os
-import sys
 import re
 import sqlite3
 from shutil import copyfile
@@ -47,7 +46,14 @@ def get_chrome_history():
             sleep(3)
 
 def get_user_path():
-    return os.environ['USERPROFILE'] + '/Desktop/'
+    if os.path.exists(os.environ['USERPROFILE'] + '/Desktop/'):
+        return os.environ['USERPROFILE'] + '/Desktop/'
+    elif os.path.exists(os.environ['USERPROFILE'] + '/Escritorio/'):
+        return os.environ['USERPROFILE'] + '/Escritorio/'
+    elif os.path.exists(os.environ['USERPROFILE'] + '/OneDrive/Desktop/'):
+        return os.environ['USERPROFILE'] + '/OneDrive/Desktop/'
+    else:
+        return os.environ['USERPROFILE'] + '/OneDrive/Escritorio'
 
 #Funcion para aplicar un tiempo entre accionses
 def delay_action():
@@ -80,11 +86,9 @@ def check_youtube_profiles_and_scare_user(hacker_file, chrome_history):
         chequer = url.startswith("https://www.youtube.com") and not any(url.startswith(x) for x in forbidden_urls)
         channel_name = re.sub(r" - youtube$", "", title, flags=re.IGNORECASE)
         channel_name = re.sub(r"^\(\d+\)\s*", "", channel_name)
-        if chequer and "https://www.youtube.com" in chrome_history:
+        if chequer:
             if channel_name:
                 profiles_visited.add(channel_name)
-        else:
-            return
     hacker_file.write(f"\n\nTambien he visto que has visitado los canales de YouTube de {', '.join(profiles_visited)}, "
                       f"ajaaaa.....")
 
@@ -98,13 +102,13 @@ def check_bank_account(hackage_file,chrome_history):
             if b.lower() in item[0].lower():
                 his_bank = b
                 break
-        if his_bank:
-            print("Banco encontrado")
-            hackage_file.write(f"\n\nAdemas veo que guardas tu dinero en el banco {his_bank}, ta fichao!!!")
-            break
-        else:
-            print("No se pudo encontrar el banco")
-            break
+    if his_bank:
+        print("Banco encontrado")
+        hackage_file.write(f"\n\nAdemas veo que guardas tu dinero en el banco {his_bank}, ta fichao!!!")
+        return None
+    else:
+        print("No se pudo encontrar el banco")
+        return None
 
 def check_steam_games(hackage_file):
     try:
